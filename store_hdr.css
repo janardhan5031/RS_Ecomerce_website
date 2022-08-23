@@ -1,0 +1,23 @@
+.logo{
+    margin: .5rem;
+    display: inline-block;
+}
+.logo div,h2,h1, p{
+    margin: 0;
+    padding: 0;
+}
+.hdr_search_box{
+    margin: 10px;
+}
+.hdr_search_box  form{
+    display: flex;
+    margin: 0;
+    padding:0;
+}
+.hdr_search_box  form input, button{
+    border: none;
+    border-radius: 5px;
+}
+.hdr_search_box form button{
+    cursor: pointer;
+}

@@ -10,13 +10,18 @@ products.addEventListener('click',(event)=>{
 
     const product_name=all_details[0].innerHTML;
     const product_cost=all_details[2].innerHTML;
+    let product_qty=1;
 
+    //if the product is already exits then removeItem from local storage and update it by incrementing its qty
+    if(localStorage.getItem(product_name)){
+        product_qty += JSON.parse(localStorage.getItem(product_name)).qty;
+        localStorage.removeItem(product_name);
+    }
     console.log(product_name,product_cost);
-    const str=JSON.stringify({name:product_name,cost:product_cost});
+    const str=JSON.stringify({name:product_name,cost:product_cost, qty:product_qty});
 
     // storing the data in local storage
     localStorage.setItem(product_name,str);
-    
     
     // creating the cart notificaation by successfull addintion to cart
     const cart_alrt = document.getElementById('cart_alrt');
@@ -34,12 +39,38 @@ products.addEventListener('click',(event)=>{
 });
 
 
-
+//displaying the cart model
 const cart = document.getElementById('cart_btn');
 const close=document.getElementById('close');
 const cart_container= document.getElementById('cart_container');
 
 cart.addEventListener('click',(e)=>{
+    
+    display();
+
+    cart_container.classList.add('active');
+});
+
+close.addEventListener('click',(e)=>{
+    e.preventDefault();
+    cart_container.classList.remove('active');
+});
+
+// removing item when click on remove button in cart model
+const remove=document.getElementById('cart_items_list');
+//console.log(remove);
+remove.addEventListener('click',(e) => {
+    const ele_id= e.target.id;
+    //console.log(ele_id);
+    // if id is not null then remove that item form storage and then form the page too
+    if(ele_id){
+        localStorage.removeItem(ele_id);
+        display();
+    }
+
+})
+
+function display(){
     
     //accessing all the data stored in local storage and creating the elements in cart model
     const values= Object.values(localStorage);  // it returns the array of all keys in local storage
@@ -53,23 +84,18 @@ cart.addEventListener('click',(e)=>{
         //console.log(JSON.parse(value).name);
         const name=JSON.parse(value).name;
         const cost=JSON.parse(value).cost;
+        const qty=JSON.parse(value).qty;
 
-        ele += `<div class=fxd_heading>
+
+        ele += `<div class=fxd_heading id=${name}>
                         <p> ${name}</p>
-                        <p>${cost}</p>
-                        <p>1</p>
-                        <button type="button">Remove</button>
+                        <p>cost: ${cost}</p>
+                        <p>quantity: ${qty}</p>
+                        <button type="button" id= ${name}>Remove</button>
                     </div>`;
                     
     })
     parent.innerHTML=ele; 
 
-
-    cart_container.classList.add('active');
-});
-
-close.addEventListener('click',(e)=>{
-    e.preventDefault();
-    cart_container.classList.remove('active');
-});
+}
 

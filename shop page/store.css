@@ -28,11 +28,18 @@ header div{
 header div li{
     margin: 10px;
     font-size: medium;
-    
 }
 header div li a{
     text-decoration: none;
     color: white;
+}
+header div li button{
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: medium;
+    font-family: inherit;
 }
 
 /* ITEMS LIST */
@@ -62,7 +69,89 @@ header div li a{
     width: 200px;
 }
 
+/* cart items shown */
+.cart_pop_up{
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;    
+    background-color: gray;
+    display: none;
+}
+.cart_pop_up.active{
+    display: flex ;
+}
+.cart_pop_up .pop_up{
+    width: 60%;
+    height: 90%;
+    position: fixed;
+    top:2rem;
+    right: 20%;
+    background-color:white;
+    align-items: center;
+}
+.cart_pop_up div #close{
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+}
+.cart_pop_up div h2{
+    text-align: center;
+    margin: 0.5rem;
+}
+.cart_pop_up .pop_up #cart_items_list{
+    margin: 0.5rem 4rem;
+    height: 76%;
+    border:0.2rem solid tomato;
+    color: white;
+}
+#cart_items_list .fxd_heading{
+    color: black;
+    display: flex;
+    margin: 1rem;
+}
+.fxd_heading p{
+    width: 20%;
+    height: 2rem;
+    padding: 0;
+    margin: 0 1rem;
+    text-align: center;
+}
+.fxd_heading button{
+    margin: 0 2rem;
+}
 
+.cart_pop_up .pop_up #cart_buy_all{
+    height: 8%;
+    width:20%;
+    position: absolute;
+    right: 40%;
+    bottom: 0.5rem;
+    background-color: red;
+    color:white;
+}
+
+
+/* cart alert model */
+.cart_alrt{
+    width:20rem;
+    margin: 0;
+
+    position: fixed;
+    top: 5rem;
+    right: 0rem;
+}
+
+.tost{
+    background-color: rosybrown;
+    color: white; 
+    padding: 1rem;
+    margin: 1rem;
+}
+
+/* footer */
 footer{
     align-items: center;
     justify-content: center;
@@ -70,6 +159,7 @@ footer{
     background-color: rgb(129, 75, 184);
     color: white;
     
+   
     bottom: 0%;
     height: 12rem;
     margin: 0;

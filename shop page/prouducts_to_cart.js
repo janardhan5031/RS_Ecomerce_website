@@ -1,5 +1,25 @@
 
-const products = document.getElementById('products');
+const products_parent = document.getElementById('products');
+
+axios.get('http://localhost:3000/get-all-products')
+    .then((products) => {
+        console.log(products.data)
+        products.data.forEach((product) =>{
+            const ele = 
+            `<div class="product" id="product1">
+                <p>${product.title}</p>
+                <div class="image_container"><img src="${product.imageUrl} " alt=""></div>
+                <p>${product.price}</p>
+                <button type="button" id="${product.id}" class="add_to_crt_btn">add to cart</button>
+            </div>`;
+            products_parent.innerHTML += ele;
+        })
+    })
+
+window.addEventListener('DomContentLoaded',(event) => {
+    
+})
+
 
 products.addEventListener('click',(event)=>{
     const product = event.target.id;
@@ -51,8 +71,7 @@ cart.addEventListener('click',(e)=>{
     cart_container.classList.add('active');
 });
 
-close.addEventListener('click',(e)=>{
-    e.preventDefault();
+close.addEventListener('click',()=>{
     cart_container.classList.remove('active');
 });
 

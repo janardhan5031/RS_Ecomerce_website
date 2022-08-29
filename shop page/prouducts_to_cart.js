@@ -3,10 +3,10 @@ const products_parent = document.getElementById('products');
 
 axios.get('http://localhost:3000/get-all-products')
     .then((products) => {
-        console.log(products.data)
+        //console.log(products.data)
         products.data.forEach((product) =>{
             const ele = 
-            `<div class="product" id="product1">
+            `<div class="product" id="${product.id}">
                 <p>${product.title}</p>
                 <div class="image_container"><img src="${product.imageUrl} " alt=""></div>
                 <p>${product.price}</p>
@@ -16,46 +16,49 @@ axios.get('http://localhost:3000/get-all-products')
         })
     })
 
-window.addEventListener('DomContentLoaded',(event) => {
-    
-})
+//
 
 
 products.addEventListener('click',(event)=>{
-    const product = event.target.id;
-    //const product_name=document.getElementById(product).firstElementChild.innerHTML
-    //console.log(product_name);
 
-    const all_details=document.getElementById(product).children;
+    // add to cart event
+    if(event.target.className ==='add_to_crt_btn'){     // if target element class matches with add to cart ele class, this process will be done
+        const productId = event.target.id;
+        //const product_name=document.getElementById(product).firstElementChild.innerHTML
+        //console.log(productId);
 
-    const product_name=all_details[0].innerHTML;
-    const product_cost=all_details[2].innerHTML;
-    let product_qty=1;
+        const all_details=document.getElementById(productId).children;
+        
+        const product_name=all_details[0].innerHTML;
+        const product_cost=all_details[2].innerHTML;
+        let product_qty=1;
 
-    //if the product is already exits then removeItem from local storage and update it by incrementing its qty
-    if(localStorage.getItem(product_name)){
-        product_qty += JSON.parse(localStorage.getItem(product_name)).qty;
-        localStorage.removeItem(product_name);
+        console.log(product_name,product_cost);
+        const str=JSON.stringify({name:product_name,cost:product_cost, qty:product_qty});
+
+        // storing the data in database through axios
+        axios.post(`http://localhost:3000/add-to-cart-out/${productId}`)
+        .then((res)=> {
+            console.log(res)
+        })
+        .catch(err => console.log(err));
+        
+        
+        // creating the cart notificaation by successfull addintion to cart
+        const cart_alrt = document.getElementById('cart_alrt');
+        console.log(cart_alrt);
+
+        const ele=document.createElement('div');
+        ele.innerHTML= `This ${product_name} is added to your cart`;
+        ele.classList.add('tost');
+        cart_alrt.appendChild(ele);
+        
+        //after few seconds this notification will be removed
+        setInterval(()=>{
+            ele.remove();   
+        },3000)
     }
-    console.log(product_name,product_cost);
-    const str=JSON.stringify({name:product_name,cost:product_cost, qty:product_qty});
-
-    // storing the data in local storage
-    localStorage.setItem(product_name,str);
     
-    // creating the cart notificaation by successfull addintion to cart
-    const cart_alrt = document.getElementById('cart_alrt');
-    console.log(cart_alrt);
-
-    const ele=document.createElement('div');
-    ele.innerHTML= `This ${product_name} is added to your cart`;
-    ele.classList.add('tost');
-    cart_alrt.appendChild(ele);
-    
-    //after few seconds this notification will be removed
-    setInterval(()=>{
-        ele.remove();   
-    },3000)
 });
 
 
@@ -90,31 +93,36 @@ remove.addEventListener('click',(e) => {
 })
 
 function display(){
-    
-    //accessing all the data stored in local storage and creating the elements in cart model
-    const values= Object.values(localStorage);  // it returns the array of all keys in local storage
 
     const parent=document.getElementById('cart_items_list');
     let ele;
 
-    values.forEach((value) =>{
+    axios.get(`http://localhost:3000/cart-out`)
+    .then((result) => {
+        //console.log(result.data);
 
-        //extracting the value into object form via prase method from json formate
-        //console.log(JSON.parse(value).name);
-        const name=JSON.parse(value).name;
-        const cost=JSON.parse(value).cost;
-        const qty=JSON.parse(value).qty;
+        const products = result.data;
+        products.forEach((product) =>{
 
+            //extracting the value into object form via prase method from json formate
+            //console.log(JSON.parse(value).name);
+            const name=product.title;
+            const cost=product.price;
+            const qty=product.cartItem.quantity;
 
-        ele += `<div class=fxd_heading id=${name}>
-                        <p> ${name}</p>
-                        <p>cost: ${cost}</p>
-                        <p>quantity: ${qty}</p>
-                        <button type="button" id= ${name}>Remove</button>
+            //console.log(name,cost,qty);
+    
+    
+            ele += `<div class=fxd_heading id=${name}>
+                            <p> ${name}</p>
+                            <p>cost: ${cost}</p>
+                            <p>quantity: ${qty}</p>
+                            <button type="button" id= ${name}>Remove</button>
                     </div>`;
-                    
+                   
+        })
+        parent.innerHTML=ele; 
     })
-    parent.innerHTML=ele; 
-
+    .catch(err => console.log(err));
 }
 

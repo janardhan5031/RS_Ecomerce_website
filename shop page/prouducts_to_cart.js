@@ -1,10 +1,52 @@
 
 const products_parent = document.getElementById('products');
+const products_list = document.getElementById('itmes_list');
+const pagination_div = document.getElementById('pagination_div');
+//console.log(pagination_div);
+ 
 
-axios.get('http://localhost:3000/get-all-products')
+var products_length;
+
+window.addEventListener('DOMContentLoaded',() => {
+
+    getDataFromServer();
+
+})
+
+pagination_div.addEventListener('click',(e) => {
+    const target_page = parseInt(e.target.innerHTML);
+    //console.log(target_page);
+
+    const numPages = Math.ceil(products_length/2);      // round figure the resultant division of number
+    //console.log(numPages);
+    if(target_page<=numPages){
+        const scndEle = pagination_div.children[1].innerHTML;
+        if((scndEle < target_page && target_page < numPages) || target_page ==1){
+            pagination_div.children[0].value = target_page;
+            pagination_div.children[1].innerHTML = target_page;
+            pagination_div.children[2].innerHTML = target_page+1;
+        }
+        else if( target_page>1){
+            pagination_div.children[0].value = target_page;
+            pagination_div.children[1].innerHTML = target_page-1;
+            pagination_div.children[2].innerHTML = target_page;
+        } 
+    }
+    getDataFromServer();
+})
+
+function getDataFromServer(){
+    const firstEle = pagination_div.children[0].value;
+    console.log('first ele',firstEle);
+
+    axios.get(`http://localhost:3000/get-all-products?page=${firstEle}`)
     .then((products) => {
-        //console.log(products.data)
-        products.data.forEach((product) =>{
+
+        products_length = products.data.length;
+        
+        products_parent.innerHTML =``;
+        //console.log(products.data.products);
+        products.data.products.forEach((product) =>{
             const ele = 
             `<div class="product" id="${product.id}">
                 <p>${product.title}</p>
@@ -16,7 +58,7 @@ axios.get('http://localhost:3000/get-all-products')
         })
     })
 
-//
+}
 
 
 products.addEventListener('click',(event)=>{

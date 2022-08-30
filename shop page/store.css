@@ -69,6 +69,24 @@ header div li button{
     width: 200px;
 }
 
+/* pagination */
+#body .pagination_div{
+    align-items: center;
+    justify-content: center;
+    margin: 2rem 45%;
+    width: 10%;
+    height: 2rem;
+    /*border: 1px solid blue;   */
+    display: flex;
+}
+.pagination_div button {
+    margin: 0 1rem;
+    padding: 0.5rem;
+    background-color: rebeccapurple;
+    color: white;
+    cursor: pointer;
+}
+
 /* cart items shown */
 .cart_pop_up{
     position: fixed;

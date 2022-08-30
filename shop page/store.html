@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="store_hdr.css">
     <script src="prouducts_to_cart.js" defer></script>
 </head>
-<body>
+<body id="body">
     <header>
         <div class="hdrs_cls">
             <div class="logo">
@@ -29,7 +29,7 @@
         </div>
     </header>
 
-    <div class="items_list">
+    <div class="items_list" id="items_list">
         <div class="items_top_hdr"><h2>OUR PRODUCTS</h2></div>
 
         <div class="products_container" id="products">
@@ -42,6 +42,12 @@
             </div-->
             
         </div>
+        
+    </div>
+    <div class="pagination_div" id="pagination_div">
+        <input type="hidden" value="1" name="page_num">
+        <button type="button">1</button>
+        <button type="button">2</button>
     </div>
 
     <!-- showing the cart -->

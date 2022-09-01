@@ -23,12 +23,13 @@
                 </form>
             </div>
             <li><a href="\../home page/home.html">HOME</a></li>
-            <li><a href="\../shop page/store.html">SHOP</a></li>
+            <li><button type="button" id="shop_btn">SHOP</button></li>
             <li><a href="\../about us  page/about us.html">ABOUT</a></li>
             <li><button type="button" id="cart_btn">CART</button></li>
         </div>
     </header>
 
+    <!-- shop products list-->
     <div class="items_list" id="items_list">
         <div class="items_top_hdr"><h2>OUR PRODUCTS</h2></div>
 
@@ -43,25 +44,46 @@
             
         </div>
         
+        <div class="pagination_div" id="pagination_div">
+            <input type="hidden" value="1" name="page_num">
+            <button type="button">1</button>
+            <button type="button">2</button>
+        </div>
     </div>
-    <div class="pagination_div" id="pagination_div">
-        <input type="hidden" value="1" name="page_num">
-        <button type="button">1</button>
-        <button type="button">2</button>
-    </div>
+
 
     <!-- showing the cart -->
-    
-    <div class="cart_pop_up" id="cart_container">
-        <div class="pop_up">
-            <button id="close">close</button>
-            <h2>CART ITMES</h2>
-            <div id="cart_items_list">
-                
+    <div class="cart_model" id="cart_container">
+        <div class="left_module">
+            <div class="cart_header">
+                <h2>CART ITEMS</h2>
             </div>
-            <button id="cart_buy_all">BUY NOW</button>
+            <div class="cart_items_container" id="cart_items_container"></div>
+            
         </div>
-
+        <div class="right_module">
+            <div class="price_details_header">
+                <h2>PRICE DETAILS</h2>
+            </div>
+            <div class="price_details_body">
+                <div class="price">
+                    <div><p>price</p></div>
+                    <div>$120</div>
+                </div>
+                <div class="discount_div">
+                    <div><p>Discount</p></div>
+                    <span>0</span>
+                </div>
+            </div>
+            
+            <div class="amount_div">
+                <div><h3>Total Amount</h3></div>
+                <div>$120</div>
+            </div>
+            <div class="order_now_div">
+                <button type="button" id="cart_buy_all" >ORDER NOW</button>
+            </div>
+        </div>
     </div>
 
     <!--cart alert -->

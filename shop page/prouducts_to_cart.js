@@ -1,17 +1,38 @@
 
-const products_parent = document.getElementById('products');
+// pages changing activity
+const shop_btn = document.getElementById('shop_btn');   // shop button in header bar
+const cart_btn = document.getElementById('cart_btn');   // cart button in the header bar
+
+const shop_products_list = document.getElementById('items_list');
+const cart_container = document.getElementById('cart_container');
+
+cart_btn.addEventListener('click', () =>{
+    shop_products_list.style.display = 'none';
+    cart_container.classList.add('active');
+    //shop_products_list.classList.add('active');
+});
+
+shop_btn.addEventListener('click', () =>{
+    cart_container.classList.remove('active');
+    shop_products_list.style.display ='flex';
+    shop_products_list.style.flexDirection ='column';
+})
+
+// header button's actions are complted upto this line
+
 const products_list = document.getElementById('itmes_list');
-const pagination_div = document.getElementById('pagination_div');
 //console.log(pagination_div);
- 
+
 
 var products_length;
 
 window.addEventListener('DOMContentLoaded',() => {
-
+    
     getDataFromServer();
-
+    
 })
+
+const pagination_div = document.getElementById('pagination_div');
 
 pagination_div.addEventListener('click',(e) => {
     const target_page = parseInt(e.target.innerHTML);
@@ -34,6 +55,9 @@ pagination_div.addEventListener('click',(e) => {
     }
     getDataFromServer();
 })
+
+
+const products_parent = document.getElementById('products');
 
 function getDataFromServer(){
     const firstEle = pagination_div.children[0].value;
@@ -66,29 +90,20 @@ products.addEventListener('click',(event)=>{
     // add to cart event
     if(event.target.className ==='add_to_crt_btn'){     // if target element class matches with add to cart ele class, this process will be done
         const productId = event.target.id;
-        //const product_name=document.getElementById(product).firstElementChild.innerHTML
+        const product_name=document.getElementById(productId).children[0].innerHTML
         //console.log(productId);
-
-        const all_details=document.getElementById(productId).children;
-        
-        const product_name=all_details[0].innerHTML;
-        const product_cost=all_details[2].innerHTML;
-        let product_qty=1;
-
-        console.log(product_name,product_cost);
-        const str=JSON.stringify({name:product_name,cost:product_cost, qty:product_qty});
 
         // storing the data in database through axios
         axios.post(`http://localhost:3000/add-to-cart-out/${productId}`)
         .then((res)=> {
-            console.log(res)
+            //console.log(res)
         })
         .catch(err => console.log(err));
         
         
         // creating the cart notificaation by successfull addintion to cart
         const cart_alrt = document.getElementById('cart_alrt');
-        console.log(cart_alrt);
+        //console.log(cart_alrt);
 
         const ele=document.createElement('div');
         ele.innerHTML= `This ${product_name} is added to your cart`;
@@ -106,65 +121,118 @@ products.addEventListener('click',(event)=>{
 
 //displaying the cart model
 const cart = document.getElementById('cart_btn');
-const close=document.getElementById('close');
-const cart_container= document.getElementById('cart_container');
 
+// opening the cat model 
 cart.addEventListener('click',(e)=>{
-    
-    display();
+    display();            // getting the cart items from the  database and displaying
 
-    cart_container.classList.add('active');
 });
 
-close.addEventListener('click',()=>{
-    cart_container.classList.remove('active');
-});
 
 // removing item when click on remove button in cart model
-const remove=document.getElementById('cart_items_list');
-//console.log(remove);
-remove.addEventListener('click',(e) => {
-    const ele_id= e.target.id;
-    //console.log(ele_id);
-    // if id is not null then remove that item form storage and then form the page too
-    if(ele_id){
-        localStorage.removeItem(ele_id);
-        display();
-    }
+const cart_items_parent = document.getElementById('cart_items_container');
 
+cart_items_parent.addEventListener('click',(e) => {
+    let remove_prod_id;
+    if(e.target.className ==='crt_rmv_btn'){
+        remove_prod_id=e.target.id;
+    }
+    axios.post('http://localhost:3000/delete-cart-product-out',{id:remove_prod_id})
+    .then(result =>{
+        //console.log(result.status);
+        display();  // refresh the cart model
+    })
+    .catch(err => console.log(err));
 })
 
+// displaying the cart products
 function display(){
 
-    const parent=document.getElementById('cart_items_list');
-    let ele;
+    const parent = document.getElementById('cart_items_container');
+
+    //console.log(parent, parent.innerText);
 
     axios.get(`http://localhost:3000/cart-out`)
     .then((result) => {
         //console.log(result.data);
 
+        parent.innerHTML='';    // removing all the elements first from the cart and add into it
+
         const products = result.data;
         products.forEach((product) =>{
 
-            //extracting the value into object form via prase method from json formate
-            //console.log(JSON.parse(value).name);
+            //console.log(product);
+            const productId = product.id;
             const name=product.title;
+            const image = product.imageUrl;
             const cost=product.price;
             const qty=product.cartItem.quantity;
 
             //console.log(name,cost,qty);
-    
-    
-            ele += `<div class=fxd_heading id=${name}>
-                            <p> ${name}</p>
-                            <p>cost: ${cost}</p>
-                            <p>quantity: ${qty}</p>
-                            <button type="button" id= ${name}>Remove</button>
-                    </div>`;
+            const ele = 
+            `<div class="cart_item">
+                <div class="product_container">
+                    <div class="image_container"><img src=${image} alt=""></div>
+                    <div class="product_description">
+                        <h4>${name}</h4>
+                        <h3>${cost}</h3>
+                    </div>
+                </div>
+                <div class="action_container">
+                    <div class="quantity_div">
+                        <button type="button">-</button>
+                        <input type="text" id="quantity" name="quantity" value=${qty}>
+                        <button type="button">+</button>
+                    </div>
+                    <div class="remove_div">
+                        <button type="submit" class="crt_rmv_btn" id=${productId}>Remove</button>
+                    </div>
+                </div>
+            </div>`;
                    
+            parent.innerHTML += ele; 
         })
-        parent.innerHTML=ele; 
     })
     .catch(err => console.log(err));
-}
+};
+
+
+// ordering the items in cart model
+const orderNow = document.getElementById('cart_buy_all');
+//console.log(orderNow);
+orderNow.addEventListener('click',() => {
+    axios.post('http://localhost:3000/order-now')
+    .then(res => {
+        console.log(res);
+
+        if(res.status == 200){
+            //removing all the elements in the cart model
+            document.getElementById('cart_items_container').innerHTML='';
+
+            //displaying the tost msg by successfull posting of product order
+            res.data.forEach((product) => {
+                const ele=document.createElement('div');
+                ele.innerHTML= `This ${product.title} is ordered with id ${product.orderItem.id}`;
+                ele.classList.add('tost');
+                cart_alrt.appendChild(ele);
+                
+                //after few seconds this notification will be removed
+                setInterval(()=>{
+                    ele.remove();   
+                },3000)
+            })
+        }else{
+            const ele=document.createElement('div');
+            ele.innerHTML= `somthing went wrong`;
+            ele.classList.add('tost');
+            cart_alrt.appendChild(ele);
+            
+            //after few seconds this notification will be removed
+            setInterval(()=>{
+                ele.remove();   
+            },3000)
+        }
+    })
+    .catch(err => console.log(err));
+} )
 

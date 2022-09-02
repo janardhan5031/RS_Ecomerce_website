@@ -203,6 +203,7 @@ const orderNow = document.getElementById('cart_buy_all');
 orderNow.addEventListener('click',() => {
     axios.post('http://localhost:3000/order-now')
     .then(res => {
+        console.log('order now button clicked');
         console.log(res);
 
         if(res.status == 200){
@@ -210,17 +211,15 @@ orderNow.addEventListener('click',() => {
             document.getElementById('cart_items_container').innerHTML='';
 
             //displaying the tost msg by successfull posting of product order
-            res.data.forEach((product) => {
-                const ele=document.createElement('div');
-                ele.innerHTML= `This ${product.title} is ordered with id ${product.orderItem.id}`;
-                ele.classList.add('tost');
-                cart_alrt.appendChild(ele);
-                
-                //after few seconds this notification will be removed
-                setInterval(()=>{
-                    ele.remove();   
-                },3000)
-            })
+            const ele=document.createElement('div');
+            ele.innerHTML= `You have successfully placed an order with id ${res.data.orderId}`;
+            ele.classList.add('tost');
+            cart_alrt.appendChild(ele);
+            
+            //after few seconds this notification will be removed
+            setInterval(()=>{
+                ele.remove();   
+            },3000)
         }else{
             const ele=document.createElement('div');
             ele.innerHTML= `somthing went wrong`;

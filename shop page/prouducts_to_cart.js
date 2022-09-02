@@ -2,17 +2,33 @@
 // pages changing activity
 const shop_btn = document.getElementById('shop_btn');   // shop button in header bar
 const cart_btn = document.getElementById('cart_btn');   // cart button in the header bar
+const order_btn = document.getElementById('orders_btn');    // order button in header bar
 
 const shop_products_list = document.getElementById('items_list');
 const cart_container = document.getElementById('cart_container');
+const order_model = document.getElementById('orders_model');    
 
 cart_btn.addEventListener('click', () =>{
+
+    if(order_model.classList.contains('active')){
+        order_model.classList.remove('active');
+    }
     shop_products_list.style.display = 'none';
     cart_container.classList.add('active');
-    //shop_products_list.classList.add('active');
 });
 
+order_btn.addEventListener('click', ()=>{
+    if(cart_container.classList.contains('active')){
+        cart_container.classList.remove('active');
+    }
+    shop_products_list.style.display = 'none';
+    order_model.classList.add('active');
+    showingOrderItems();
+})
+
 shop_btn.addEventListener('click', () =>{
+
+    order_model.classList.remove('active');
     cart_container.classList.remove('active');
     shop_products_list.style.display ='flex';
     shop_products_list.style.flexDirection ='column';
@@ -233,5 +249,39 @@ orderNow.addEventListener('click',() => {
         }
     })
     .catch(err => console.log(err));
-} )
+});
+
+// showing the orders module
+function showingOrderItems(){
+    let orderItems_container = document.getElementById('orders_items');
+    
+    axios.get('http://localhost:3000/get-all-order-items')
+    .then(orderItems =>{
+        console.log(orderItems);
+        orderItems.data.forEach(order =>{
+            let ele =
+            `<div class="order_item" id=${order.OrderDetails.id}>   
+                <div class="image_container">
+                    <img src=${order.imageUrl} alt="">
+                </div>
+                <div class="text_container">
+                    <h4>${order.title}</h4>
+                    <p>product id is ${order.id}</p>
+                </div>
+                <div class="item_price">
+                    <h4>${order.price}</h4>
+                </div>
+                <div class="order_status_container">
+                    <h4>ordered on jun 16, 2022</h4>
+                </div>
+            </div>`;
+
+            orderItems_container.innerHTML += ele;
+        });
+        if(!orderItems.data.length){
+            orderItems_container.innerHTML = `<div class="no_orders_div"><h3> YOU HAVE NOT ORDERED ANY PRODUCT</h3></div>`
+        }
+    })
+    .catch(err => console.log(err));
+}
 

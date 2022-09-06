@@ -1,0 +1,367 @@
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: rgb(129, 75, 184);
+    color: white;
+    position: sticky;
+    top: 0px;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 5rem;
+    
+    font-family: Arial, Helvetica, sans-serif;
+}
+header div{
+    list-style: none;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+header div li{
+    margin: 10px;
+    font-size: medium;
+}
+header div li a{
+    text-decoration: none;
+    color: white;
+}
+header div li button{
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: medium;
+    font-family: inherit;
+}
+
+    /* ITEMS LIST */
+    .items_list{
+        align-items: center;
+        justify-content: center;
+        /*display: none;    */
+    }
+    
+    .items_top_hdr h2{
+        text-align: center;
+    }
+    .products_container{
+        margin: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+    }
+    .product{
+        margin: 1.5rem;
+        display: flex;
+        flex-direction: column;
+    }
+    .product p{
+        text-align: center;
+    }
+    .products_container .image_container, img{
+        height: 200px;
+        width: 200px;
+    }
+    .products_container button{
+        cursor: pointer;
+    }
+
+    /* pagination */
+    .items_list .pagination_div{
+        align-items: center;
+        justify-content: center;
+        margin: 2rem 45%;
+        width: 10%;
+        height: 2rem;
+        /*border: 1px solid blue;   */
+        display: flex;
+    }
+    .pagination_div button {
+        margin: 0 1rem;
+        padding: 0.5rem;
+        background-color: rebeccapurple;
+        color: white;
+        cursor: pointer;
+    }
+
+/* cart items shown */
+.cart_model{
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: aliceblue;
+    display: flex;
+    margin: 0;
+    padding: 0 ;
+    display: none;
+}
+.cart_model.active{
+    display: flex;
+}
+.cart_model .left_module{
+    margin: 0.7rem 0.4rem 0.7rem 2rem;  
+    width: 60%;
+    /*background-color: aquamarine;*/
+}
+.left_module .cart_header{
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+.cart_header h2{
+    text-align: center;
+}
+.cart_items_container{
+    margin: 0.5rem 0;
+}
+.cart_item{
+    margin: 1rem 0;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    padding: 0.3rem 1rem;
+}
+.cart_item .product_container{
+    display: flex;
+}
+.product_container .image_container{
+    width: 40%;
+    height: 40%;
+}
+.product_description{
+    width: 60%;
+    height: 60%;
+}
+.product_container h3, h4{
+    text-align: center;
+}
+.action_container{
+    margin: 1rem 0;
+    padding: 0.5rem 0;
+    /*border: 1px solid black;  */
+    display: flex;
+    justify-content: space-evenly;
+}
+.quantity_div button{
+    background-color: white;
+    border: none;
+    border-radius: 40%;
+}
+.quantity_div input{
+    width: 1rem;
+    text-align: center;
+}
+.remove_div button{
+    padding: 5px 0;
+    width: 6rem;
+    color: white;
+    background-color: #fb641b;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+/*.order_now_div{
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem;
+    position: relative;
+    bottom: 0;
+    left: 0%;
+}*/
+
+.cart_model .right_module{
+    position: sticky;
+    top: 5rem;
+    right: 0;
+    margin: 0.7rem 2rem 0.7rem 0.4rem;
+    width: 30%;
+    /*background-color: violet; */
+    height: 20rem;
+    padding: 2px 8px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+.price_details_header{
+    border-bottom: 1px solid red;
+    padding: 0.5rem 0;
+    margin-bottom: 0.5rem;
+}
+.price_details_header h2{
+    text-align: center;
+}
+.price_details_body{
+    /*border: 1px solid red;*/
+    padding: 0.4px 0;    
+}
+.price_details_body .price , .discount_div{
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem 0;
+}
+.amount_div{
+   
+    margin: 0.5rem 4px;
+   /* border: 1px solid red;    */
+   border-top: 1px solid red ;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0 2rem 0;
+}
+.amount_div h3{
+    margin: 0;
+    padding: 0;
+}
+.order_now_div{
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: #fb641b;
+    display: flex;
+    justify-content: center;
+}
+.order_now_div button{
+    background-color: #fb641b;
+    color: white;
+    margin: 0.5rem ;
+    cursor: pointer;
+}
+
+/* orders module */
+.orders_model{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+.orders_model.active{
+    display: flex;
+}
+.order_header{
+    margin: 1rem 0;
+    padding: 1.5rem;
+    width: 80%;
+    color: rebeccapurple;
+    background-color:white;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+.orders_model h2{
+    text-align: center;
+}
+.order_items_container{
+    margin: 0;
+    padding: 0;
+    width: 85%;
+}
+.order_item{
+    margin-bottom: 1rem;
+    width: 100%;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: space-around;
+}
+.order_item .image_container{
+    width: 100px;
+    height: 100px;
+    margin: 0.5rem 0;
+}
+.order_item img{
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
+}
+.no_orders_div{
+    width: 100%;
+    height: 15rem;
+    margin-bottom: 1rem;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* cart alert model */
+.cart_alrt{
+    width:20rem;
+    margin: 0;
+
+    position: fixed;
+    top: 5rem;
+    right: 0rem;
+}
+
+.tost{
+    background-color: rosybrown;
+    color: white; 
+    padding: 1rem;
+    margin: 1rem;
+}
+
+/* footer */
+footer{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: rgb(129, 75, 184);
+    color: white;
+    
+   
+    bottom: 0%;
+    height: 12rem;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+footer .div1{
+    margin: 2rem;
+    padding: 0;
+}
+footer .div1 .logo{
+    margin: 1rem 0;
+}
+footer .div1 .logo .upper_text{
+    text-align: center;
+    font-size: larger;
+}
+footer .div2{
+    margin: 2rem;
+    padding: 0;
+}
+footer .div2 div .adrs, .phn, .Email{
+    display: flex;
+    margin: 0.8rem 0;
+}
+footer .div2 div .adrs #div2_det, .phn #div2_det, .Email #div2_det{
+    margin: 0 1rem;
+}
+
+footer .div3{
+    margin: 2rem;
+    padding: 0;
+}
+footer .div3 div{
+    display: flex;
+}
+footer .div3 div .youtube, .twiter, .insta{
+    margin: 0.2rem;
+}
+footer .div3 div .youtube img, .twiter img, .insta img{
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    border-radius: 0.5rem;
+}
